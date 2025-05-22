@@ -142,20 +142,26 @@
             margin-top: 20px;
             flex-wrap: wrap;
             justify-content: center;
+            width: 100%;
         }
 
         .btn {
-            padding: 15px 30px;
+            padding: 12px 20px;
             border: none;
             border-radius: 50px;
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s ease;
             text-decoration: none;
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             text-align: center;
-            min-width: 200px;
+            min-width: 0;
+            width: 100%;
+            box-sizing: border-box;
+            white-space: nowrap;
         }
 
         .btn-primary {
@@ -339,11 +345,70 @@
                 grid-template-columns: 1fr;
             }
             
-            .ticket-options {
-                grid-template-columns: 1fr;
+            .feature {
+                padding: 12px;
+                font-size: 0.95rem;
+            }
+            
+            .button-group {
+                flex-direction: column;
+                gap: 12px;
+                margin-top: 15px;
+            }
+            
+            .btn {
+                padding: 14px 20px;
+                font-size: 1rem;
+                width: 100%;
+                margin: 0;
+            }
+            
+            .image-gallery {
+                margin: 0 -15px 20px;
+            }
+            
+            .gallery-thumbnails {
+                padding: 10px 0;
+                overflow-x: auto;
+                white-space: nowrap;
+                display: flex;
+                gap: 8px;
+            }
+            
+            .gallery-thumb {
+                width: 100px;
+                height: 75px;
+                object-fit: cover;
+                border-radius: 8px;
+                display: inline-block;
+            }
+            
+            .main-image {
+                width: 100%;
+                height: auto;
+                border-radius: 15px 15px 0 0;
             }
         }
-
+        
+        @media (min-width: 481px) and (max-width: 768px) {
+            .button-group {
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+            
+            .btn {
+                flex: 1 1 calc(50% - 8px);
+                min-width: 0;
+            }
+        }
+        
+        @media (min-width: 769px) {
+            .btn {
+                min-width: 200px;
+                padding: 15px 30px;
+            }
+        }
+        
         @media (max-width: 480px) {
             .card-header h1 {
                 font-size: 1.5rem;
