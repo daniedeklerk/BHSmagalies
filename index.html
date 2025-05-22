@@ -423,7 +423,7 @@
 <body>
     <div class="container">
         <!-- Welcome Section -->
-        <div class="card" id="welcome-card">
+        <div class="card hidden" id="welcome-card">
             <div class="card-header">
                 <h1>⚪ Bronkhorstspruit Rolbalklub ⚪</h1>
                 <p>AMAZING Prize Draw!</p>
@@ -470,7 +470,7 @@
         </div>
 
         <!-- More Info Section -->
-        <div class="card hidden" id="info-card">
+        <div class="card" id="info-card">
             <div class="card-body">
                 <h2>📋 Draw Details</h2>
                 <ul style="list-style: none; padding: 0;">
@@ -616,6 +616,7 @@
         function goBack() {
             document.getElementById('info-card').classList.add('hidden');
             document.getElementById('welcome-card').classList.remove('hidden');
+            window.scrollTo(0, 0);
         }
 
         function selectTickets(tickets, amount) {
