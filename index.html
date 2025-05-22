@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bronkhorstspruit Rolbalklub Prize Draw</title>
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            overflow: hidden;
+            transform: translateY(20px);
+            opacity: 0;
+            animation: slideUp 0.6s ease-out forwards;
+        }
+
+        @keyframes slideUp {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(255,255,255,0.1) 10px,
+                rgba(255,255,255,0.1) 20px
+            );
+            animation: shimmer 3s linear infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%); }
+            100% { transform: translateX(100%) translateY(100%); }
+        }
+
+        .card-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-header p {
+            font-size: 1.2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-body {
+            padding: 30px;
+        }
+
+        .prize-section {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .prize-section h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .prize-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .feature {
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .price-highlight {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin: 15px 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            min-width: 200px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .ticket-options {
+            display: none;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .ticket-option {
+            background: linear-gradient(135deg, #a8edea, #fed6e3);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+        }
+
+        .ticket-option:hover {
+            transform: translateY(-5px);
+            border-color: #667eea;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .ticket-option.selected {
+            border-color: #2ecc71;
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: white;
+        }
+
+        .form-section {
+            display: none;
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .payment-methods {
+            background: #e8f5e8;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .progress-bar {
+            background: #e0e0e0;
+            height: 8px;
+            border-radius: 4px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            height: 100%;
+            width: 0%;
+            border-radius: 4px;
+            transition: width 1s ease;
+        }
+
+        .image-gallery {
+            margin-bottom: 20px;
+        }
+
+        .main-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .gallery-thumbnails {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+        }
+
+        .gallery-thumb {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .gallery-thumb:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .emoji {
+            font-size: 1.5em;
+            margin: 0 5px;
+        }
+
+        .confirmation {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .card-header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .card-header p {
+                font-size: 1rem;
+            }
+            
+            .card-body {
+                padding: 20px;
+            }
+            
+            .button-group {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                min-width: 250px;
+            }
+            
+            .prize-features {
+                grid-template-columns: 1fr;
+            }
+            
+            .ticket-options {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .card-header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .price-highlight {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Welcome Section -->
+        <div class="card" id="welcome-card">
+            <div class="card-header">
+                <h1>⚪ Bronkhorstspruit Rolbalklub ⚪</h1>
+                <p>AMAZING Prize Draw!</p>
+            </div>
+            <div class="card-body">
+                <!-- Image Gallery -->
+                <div class="image-gallery">
+                    <img src="assets/magalies1.png" alt="Magaliespark Resort" class="gallery-image main-image" id="main-image">
+                    <div class="gallery-thumbnails">
+                        <img src="assets/magalies2.jpeg" alt="Magaliespark View 1" class="gallery-thumb" onclick="changeMainImage('assets/magalies2.jpeg', 'Magaliespark View 1')">
+                        <img src="assets/magalies3.jpeg" alt="Magaliespark View 2" class="gallery-thumb" onclick="changeMainImage('assets/magalies3.jpeg', 'Magaliespark View 2')">
+                        <img src="assets/magalies4.jpeg" alt="Magaliespark View 3" class="gallery-thumb" onclick="changeMainImage('assets/magalies4.jpeg', 'Magaliespark View 3')">
+                    </div>
+                </div>
+                
+                <div class="prize-section">
+                    <h2>🏡 WIN A LUXURY CHALET GETAWAY! 🏡</h2>
+                    <div class="prize-features">
+                        <div class="feature">🏠 2-bedroom, 6-sleeper, 2-bathroom chalet</div>
+                        <div class="feature">🏞️ Beautiful Magaliespark location</div>
+                        <div class="feature">👨‍👩‍👧‍👦 Perfect for 4 adults + 2 children</div>
+                        <div class="feature">📅 28 July - 1 August</div>
+                        <div class="feature">💎 Valued at R1,000!</div>
+                    </div>
+                    <p>🌟 Imagine relaxing in this beautiful setting while supporting our club! 🌟</p>
+                </div>
+
+                <div class="cta-section">
+                    <h3>💰 Entry Fee: Only R50 per ticket! 💰</h3>
+                    <div class="price-highlight">R50</div>
+                    <p>Every ticket helps us reach our R80,000 goal for the club's new lawnmower!</p>
+                    
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill"></div>
+                    </div>
+                    <p><strong>Goal: R80,000 for new equipment</strong></p>
+                    
+                    <div class="button-group">
+                        <a href="https://chatbot.danovate.co.za/bhs-magaliespark" target="_blank" class="btn btn-primary">⚪ YES, COUNT ME IN! ⚪</a>
+                        <a href="https://chatbot.danovate.co.za/bhs-magaliespark-more" target="_blank" class="btn btn-secondary">📋 Tell me more</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- More Info Section -->
+        <div class="card hidden" id="info-card">
+            <div class="card-body">
+                <h2>📋 Draw Details</h2>
+                <ul style="list-style: none; padding: 0;">
+                    <li>🎫 Total tickets available: Limited quantity</li>
+                    <li>📅 Draw date: To be announced</li>
+                    <li>💎 Prize value: R1,000 chalet stay</li>
+                    <li>🌱 All proceeds support our lawnmower fund</li>
+                    <li>🤝 Every member can contribute to our success!</li>
+                </ul>
+                
+                <h3>This is your chance to:</h3>
+                <ul style="list-style: none; padding: 0;">
+                    <li>✅ Win an amazing family getaway</li>
+                    <li>✅ Support your club's equipment needs</li>
+                    <li>✅ Help ensure our greens stay perfect</li>
+                </ul>
+                
+                <div class="button-group">
+                    <button class="btn btn-primary" onclick="showTicketOptions()">🟢 YES, LET'S DO THIS! 🟢</button>
+                    <button class="btn btn-secondary" onclick="goBack()">🤔 I need to think about it</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ticket Selection -->
+        <div class="card hidden" id="ticket-card">
+            <div class="card-body">
+                <h2>⚪ Fantastic choice! How many tickets?</h2>
+                
+                <div class="ticket-options" id="ticket-options">
+                    <div class="ticket-option" onclick="selectTickets(1, 50)">
+                        <h3>1 Ticket</h3>
+                        <p><strong>R50</strong></p>
+                        <p>Good luck!</p>
+                    </div>
+                    <div class="ticket-option" onclick="selectTickets(2, 100)">
+                        <h3>2 Tickets</h3>
+                        <p><strong>R100</strong></p>
+                        <p>Double your chances!</p>
+                    </div>
+                    <div class="ticket-option" onclick="selectTickets(5, 250)">
+                        <h3>5 Tickets</h3>
+                        <p><strong>R250</strong></p>
+                        <p>Great value!</p>
+                    </div>
+                    <div class="ticket-option" onclick="selectTickets(10, 500)">
+                        <h3>10 Tickets</h3>
+                        <p><strong>R500</strong></p>
+                        <p>Maximum chances!</p>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin: 20px 0;">
+                    <p>Or enter custom amount:</p>
+                    <input type="number" id="custom-tickets" placeholder="Number of tickets" min="1" style="padding: 10px; margin: 10px; border: 2px solid #ddd; border-radius: 8px;">
+                    <button class="btn btn-secondary" onclick="selectCustomTickets()">Select Custom</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Form Section -->
+        <div class="card hidden" id="form-card">
+            <div class="card-body">
+                <h2>⚪ You've selected <span id="selected-tickets"></span> tickets for R<span id="selected-amount"></span></h2>
+                
+                <div class="payment-methods">
+                    <h3>💳 Payment Methods:</h3>
+                    <ul>
+                        <li>💰 Cash to committee members</li>
+                        <li>🏦 EFT: [Bank details to be provided]</li>
+                        <li>🤝 At the next club meeting</li>
+                    </ul>
+                </div>
+                
+                <div class="form-section" style="display: block;">
+                    <h3>Please provide your details:</h3>
+                    <div class="form-group">
+                        <label for="fullName">Full Name *</label>
+                        <input type="text" id="fullName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contactNumber">Contact Number *</label>
+                        <input type="tel" id="contactNumber" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email (optional)</label>
+                        <input type="email" id="email">
+                    </div>
+                    
+                    <button class="btn btn-primary" style="width: 100%;" onclick="submitForm()">🟢 Complete Entry 🟢</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Confirmation -->
+        <div class="card hidden" id="confirmation-card">
+            <div class="card-body">
+                <div class="confirmation">
+                    <h1>🎊 CONGRATULATIONS! 🎊</h1>
+                    <p>Your entry has been recorded!</p>
+                    
+                    <div style="margin: 20px 0; text-align: left;">
+                        <h3>Summary:</h3>
+                        <p>• Tickets purchased: <span id="final-tickets"></span></p>
+                        <p>• Amount: R<span id="final-amount"></span></p>
+                        <p>• Name: <span id="final-name"></span></p>
+                        <p>• Contact: <span id="final-contact"></span></p>
+                    </div>
+                    
+                    <h3>Next steps:</h3>
+                    <ol style="text-align: left; margin: 20px 0;">
+                        <li>Complete your payment using your selected method</li>
+                        <li>Keep this confirmation for your records</li>
+                        <li>Watch for the draw announcement!</li>
+                    </ol>
+                    
+                    <p><strong>Thank you for supporting Bronkhorstspruit Rolbalklub!</strong></p>
+                    <p>🟢 Good luck in the draw! ⚪</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedTickets = 0;
+        let selectedAmount = 0;
+
+        function showTicketOptions() {
+            document.getElementById('welcome-card').classList.add('hidden');
+            document.getElementById('info-card').classList.add('hidden');
+            document.getElementById('ticket-card').classList.remove('hidden');
+            document.getElementById('ticket-options').style.display = 'grid';
+            updateProgress(25);
+        }
+
+        function showMoreInfo() {
+            document.getElementById('welcome-card').classList.add('hidden');
+            document.getElementById('info-card').classList.remove('hidden');
+        }
+
+        function goBack() {
+            document.getElementById('info-card').classList.add('hidden');
+            document.getElementById('welcome-card').classList.remove('hidden');
+        }
+
+        function selectTickets(tickets, amount) {
+            selectedTickets = tickets;
+            selectedAmount = amount;
+            
+            // Update visual selection
+            document.querySelectorAll('.ticket-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            event.target.closest('.ticket-option').classList.add('selected');
+            
+            setTimeout(() => {
+                showForm();
+            }, 500);
+        }
+
+        function selectCustomTickets() {
+            const customTickets = parseInt(document.getElementById('custom-tickets').value);
+            if (customTickets && customTickets > 0) {
+                selectedTickets = customTickets;
+                selectedAmount = customTickets * 50;
+                showForm();
+            } else {
+                alert('Please enter a valid number of tickets');
+            }
+        }
+
+        function showForm() {
+            document.getElementById('ticket-card').classList.add('hidden');
+            document.getElementById('form-card').classList.remove('hidden');
+            document.getElementById('selected-tickets').textContent = selectedTickets;
+            document.getElementById('selected-amount').textContent = selectedAmount;
+            updateProgress(75);
+        }
+
+        function submitForm() {
+            const name = document.getElementById('fullName').value;
+            const contact = document.getElementById('contactNumber').value;
+            
+            if (!name || !contact) {
+                alert('Please fill in all required fields');
+                return;
+            }
+            
+            // Update final confirmation
+            document.getElementById('final-tickets').textContent = selectedTickets;
+            document.getElementById('final-amount').textContent = selectedAmount;
+            document.getElementById('final-name').textContent = name;
+            document.getElementById('final-contact').textContent = contact;
+            
+            document.getElementById('form-card').classList.add('hidden');
+            document.getElementById('confirmation-card').classList.remove('hidden');
+            updateProgress(100);
+        }
+
+        function updateProgress(percentage) {
+            document.getElementById('progress-fill').style.width = percentage + '%';
+        }
+
+        function changeMainImage(src, alt) {
+            const mainImage = document.querySelector('.main-image');
+            mainImage.src = src;
+            mainImage.alt = alt;
+        }
+
+        // Initialize progress and image gallery
+        updateProgress(0);
+        
+        // Add click handlers for image gallery
+        document.addEventListener('DOMContentLoaded', function() {
+            const thumbnails = document.querySelectorAll('.gallery-thumb');
+            thumbnails.forEach((thumb, index) => {
+                thumb.addEventListener('click', function() {
+                    const images = [
+                        {src: '/api/placeholder/400/300', alt: 'Beautiful Restaurant Terrace at Magaliespark'},
+                        {src: '/api/placeholder/400/300', alt: 'Luxury Spa Bathroom with Jacuzzi'},
+                        {src: '/api/placeholder/400/300', alt: 'Resort Pool Area at Night'}
+                    ];
+                    changeMainImage(images[index].src, images[index].alt);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
