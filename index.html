@@ -701,18 +701,14 @@
         
         // Add click handlers for image gallery
         document.addEventListener('DOMContentLoaded', function() {
-            const thumbnails = document.querySelectorAll('.gallery-thumb');
-            thumbnails.forEach((thumb, index) => {
-                thumb.addEventListener('click', function() {
-                    const images = [
-                        {src: '/api/placeholder/400/300', alt: 'Beautiful Restaurant Terrace at Magaliespark'},
-                        {src: '/api/placeholder/400/300', alt: 'Luxury Spa Bathroom with Jacuzzi'},
-                        {src: '/api/placeholder/400/300', alt: 'Resort Pool Area at Night'}
-                    ];
-                    changeMainImage(images[index].src, images[index].alt);
-                });
-            });
+            // This is now handled by the inline onclick handlers
         });
+        
+        function changeMainImage(src, alt) {
+            const mainImage = document.getElementById('main-image');
+            mainImage.src = src;
+            mainImage.alt = alt;
+        }
     </script>
 </body>
 </html>
