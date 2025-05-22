@@ -423,7 +423,7 @@
 <body>
     <div class="container">
         <!-- Welcome Section -->
-        <div class="card hidden" id="welcome-card">
+        <div class="card" id="welcome-card">
             <div class="card-header">
                 <h1>⚪ Bronkhorstspruit Rolbalklub ⚪</h1>
                 <p>AMAZING Prize Draw!</p>
@@ -463,14 +463,15 @@
                     
                     <div class="button-group">
                         <a href="https://chatbot.danovate.co.za/bhs-magaliespark" target="_blank" class="btn btn-primary">⚪ YES, COUNT ME IN! ⚪</a>
-                        <a href="https://chatbot.danovate.co.za/bhs-magaliespark-more" target="_blank" class="btn btn-secondary">📋 Tell me more</a>
+                        <button class="btn btn-secondary" onclick="showDrawDetails()">📋 View Draw Details</button>
+                        <a href="https://chatbot.danovate.co.za/bhs-magaliespark-more" target="_blank" class="btn btn-secondary">More Information</a>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- More Info Section -->
-        <div class="card" id="info-card">
+        <div class="card hidden" id="info-card">
             <div class="card-body">
                 <h2>📋 Draw Details</h2>
                 <ul style="list-style: none; padding: 0;">
@@ -613,6 +614,12 @@
             document.getElementById('info-card').classList.remove('hidden');
         }
 
+        function showDrawDetails() {
+            document.getElementById('welcome-card').classList.add('hidden');
+            document.getElementById('info-card').classList.remove('hidden');
+            window.scrollTo(0, 0);
+        }
+        
         function goBack() {
             document.getElementById('info-card').classList.add('hidden');
             document.getElementById('welcome-card').classList.remove('hidden');
